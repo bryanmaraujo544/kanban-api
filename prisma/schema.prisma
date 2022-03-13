@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int            @id @default(autoincrement())
+  name          String         @unique @db.VarChar(256)
+  photo_url     String
+  password      String         @db.VarChar(512)
+  columns       Column[]
+  collaborators Collaborator[]
+
+
+  Collaborator Collaborator[] @relation("Owner of Board")
+  @@map("users")
+}
+
+model Collaborator {
+  id       Int  @id @default(autoincrement())
+  owner    User @relation("Owner of Board", fields: [owner_id], references: [id])
+  owner_id Int
+  user     User @relation(fields: [user_id], references: [id])
+  user_id  Int
+
+  @@map("collaborators")
+}
+
+model Column {
+  id      Int    @id @default(autoincrement())
+  title   String
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id Int
+  tasks   Task[]
+
+  @@map("columns")
+}
+
+model Task {
+  id    Int    @id @default(autoincrement())
+  title String @db.VarChar(256)
+  tag   String @db.VarChar(32)
+
+  column    Column? @relation(fields: [column_id], references: [id])
+  column_id Int?
+  @@map("tasks")
+}
