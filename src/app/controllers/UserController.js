@@ -1,3 +1,9 @@
-class UserController {}
+const UsersRepository = require('../repositories/UsersRepository');
+class UserController {
+  async index(req, res) {
+    const users = await UsersRepository.findAll();
+    res.send(users);
+  }
+}
 
-export default new UserController();
+module.exports = new UserController();

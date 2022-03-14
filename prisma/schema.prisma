@@ -12,8 +12,9 @@ datasource db {
 
 model User {
   id            Int            @id @default(autoincrement())
-  name          String         @unique @db.VarChar(256)
+  name          String         @db.VarChar(256)
   photo_url     String
+  email         String         @unique @db.VarChar(256)
   password      String         @db.VarChar(512)
   columns       Column[]
   collaborators Collaborator[]

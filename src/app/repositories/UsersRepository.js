@@ -1,3 +1,10 @@
-class UsersRepository {}
+const prisma = require('../../prisma');
 
-export default new UsersRepository();
+class UsersRepository {
+  async findAll() {
+    const users = await prisma.user.findMany();
+    return users;
+  }
+}
+
+module.exports = new UsersRepository();
