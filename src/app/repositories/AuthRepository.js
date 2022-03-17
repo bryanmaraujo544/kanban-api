@@ -26,6 +26,25 @@ class AuthRepository {
       },
     });
 
+    await prisma.board.create({
+      data: {
+        admin_id: user.id,
+      },
+    });
+
+    const board = await prisma.findFirst({
+      where: {
+        admin_id: user.id,
+      },
+    });
+
+    await prisma.column.create({
+      data: {
+        title: 'To do',
+        board_id: board.id,
+      },
+    });
+
     return user;
   }
 }
