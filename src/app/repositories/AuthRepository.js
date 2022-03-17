@@ -32,7 +32,7 @@ class AuthRepository {
       },
     });
 
-    const board = await prisma.findFirst({
+    const board = await prisma.board.findFirst({
       where: {
         admin_id: user.id,
       },
