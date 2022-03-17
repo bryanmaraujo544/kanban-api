@@ -11,35 +11,44 @@ datasource db {
 }
 
 model User {
-  id            Int            @id @default(autoincrement())
-  name          String         @db.VarChar(256)
-  photo_url     String
-  email         String         @unique @db.VarChar(256)
-  password      String         @db.VarChar(512)
-  columns       Column[]
+  id        Int    @id @default(autoincrement())
+  name      String @db.VarChar(256)
+  photo_url String @db.VarChar(1024)
+  email     String @unique @db.VarChar(256)
+  password  String @db.VarChar(512)
+
   collaborators Collaborator[]
-
-
-  Collaborator Collaborator[] @relation("Owner of Board")
+  Board         Board[]
   @@map("users")
 }
 
-model Collaborator {
+model Board {
   id       Int  @id @default(autoincrement())
-  owner    User @relation("Owner of Board", fields: [owner_id], references: [id])
-  owner_id Int
-  user     User @relation(fields: [user_id], references: [id])
+  user     User @relation(fields: [admin_id], references: [id])
+  admin_id Int
+
+  Column       Column[]
+  Collaborator Collaborator[]
+
+  @@map("boards")
+}
+
+model Collaborator {
+  id       Int   @id @default(autoincrement())
+  board    Board @relation(fields: [board_id], references: [id])
+  board_id Int
+  user     User  @relation(fields: [user_id], references: [id])
   user_id  Int
 
   @@map("collaborators")
 }
 
 model Column {
-  id      Int    @id @default(autoincrement())
-  title   String
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id Int
-  tasks   Task[]
+  id       Int    @id @default(autoincrement())
+  title    String
+  board    Board  @relation(fields: [board_id], references: [id])
+  board_id Int
+  tasks    Task[]
 
   @@map("columns")
 }

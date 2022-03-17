@@ -47,7 +47,11 @@ class AuthController {
         .json({ message: 'The password is wrong!', token: null });
     }
 
-    const token = createToken({ id: user.id, profileImageUrl: user.photo_url });
+    const token = createToken({
+      id: user.id,
+      name: user.name,
+      profileImageUrl: user.photo_url,
+    });
     res.json({ message: 'User logged', token });
   }
 }

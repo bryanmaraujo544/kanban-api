@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/users', UserController.index);
+router.get('/users/:email', UserController.listByEmail);
 
 router.post('/auth/register', AuthController.register);
 router.post('/auth/login', AuthController.login);
