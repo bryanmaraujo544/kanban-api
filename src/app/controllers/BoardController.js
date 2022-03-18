@@ -6,6 +6,14 @@ class BoardController {
 
     res.json({ boards });
   }
+
+  async show(req, res) {
+    const { userId } = req.params;
+    console.log({ userId });
+    const board = await BoardsRepository.findByUserId(userId);
+    console.log({ board });
+    res.json({ board });
+  }
 }
 
 module.exports = new BoardController();

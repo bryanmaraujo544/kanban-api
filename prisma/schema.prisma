@@ -29,6 +29,7 @@ model Board {
 
   Column       Column[]
   Collaborator Collaborator[]
+  Task         Task[]
 
   @@map("boards")
 }
@@ -60,5 +61,8 @@ model Task {
 
   column    Column? @relation(fields: [column_id], references: [id])
   column_id Int?
+
+  board    Board @relation(fields: [board_id], references: [id])
+  board_id Int
   @@map("tasks")
 }
