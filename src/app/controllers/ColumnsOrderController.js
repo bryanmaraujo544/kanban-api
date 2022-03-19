@@ -9,7 +9,7 @@ class ColumnsOrderController {
   async showByBoardId(req, res) {
     const { boardId } = req.params;
     const columnsOrder = await ColumnsOrderRepository.findByBoardId(boardId);
-    res.send(columnsOrder);
+    res.json({ columnsOrder });
   }
 
   async store(req, res) {
@@ -26,6 +26,18 @@ class ColumnsOrderController {
       index,
     });
     res.json({ message: 'Saved the new column order', columnOrder });
+  }
+
+  async update(req, res) {
+    const { columnsIndexAndId } = req.body;
+
+    if (!columnsIndexAndId) {
+      return res.json({ message: 'Fields are missing' });
+    }
+
+    await ColumnsOrderRepository.updateMany(columnsIndexAndId);
+
+    res.json({ message: 'Columns Order Updated!' });
   }
 }
 

@@ -9,8 +9,6 @@ class ColumnController {
   async show(req, res) {
     const { boardId } = req.params;
     const columns = await ColumnsRepository.findByBoardId(boardId);
-    columns.forEach((column) => console.log(column));
-    // console.log({ columns });
     res.json({ columns });
   }
 

@@ -29,6 +29,21 @@ class ColumnsOrderRepository {
     });
     return columnOrder;
   }
+
+  async updateMany(columnsIndexAndId) {
+    columnsIndexAndId.forEach(({ columnId, index }) => {
+      (async () => {
+        await prisma.columnOrder.updateMany({
+          where: {
+            column_id: columnId,
+          },
+          data: {
+            index: index,
+          },
+        });
+      })();
+    });
+  }
 }
 
 module.exports = new ColumnsOrderRepository();

@@ -32,5 +32,6 @@ router.post('/tasks', TaskController.store);
 router.get('/columns-order', ColumnsOrderController.index);
 router.get('/columns-order/:boardId', ColumnsOrderController.showByBoardId);
 router.post('/columns-order', ColumnsOrderController.store);
+router.put('/columns-order', ColumnsOrderController.update);
 
 module.exports = router;
