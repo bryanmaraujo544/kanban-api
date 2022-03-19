@@ -30,6 +30,8 @@ class ColumnsRepository {
     return column;
   }
 
+  async update(fieldsToBeUpdated) {}
+
   async findByTitle({ title, boardId }) {
     const column = await prisma.column.findFirst({
       where: {

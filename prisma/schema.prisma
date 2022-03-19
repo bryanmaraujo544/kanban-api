@@ -27,9 +27,9 @@ model Board {
   Column       Column[]
   Task         Task[]
 
+  ColumnOrder ColumnOrder[]
   @@index([admin_id], map: "boards_admin_id_fkey")
   @@map("boards")
-  ColumnOrder ColumnOrder[]
 }
 
 model Collaborator {
@@ -51,9 +51,9 @@ model Column {
   board    Board  @relation(fields: [board_id], references: [id])
   tasks    Task[]
 
+  ColumnOrder ColumnOrder[]
   @@index([board_id], map: "columns_board_id_fkey")
   @@map("columns")
-  ColumnOrder ColumnOrder[]
 }
 
 model Task {
@@ -64,6 +64,7 @@ model Task {
   board_id  Int
   board     Board   @relation(fields: [board_id], references: [id])
   column    Column? @relation(fields: [column_id], references: [id])
+  index     Int
 
   @@index([board_id], map: "tasks_board_id_fkey")
   @@index([column_id], map: "tasks_column_id_fkey")

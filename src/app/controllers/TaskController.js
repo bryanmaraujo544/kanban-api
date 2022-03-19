@@ -15,10 +15,14 @@ class TaskController {
   }
 
   async store(req, res) {
-    const { title, tag, columnId, boardId } = req.body;
+    const { title, tag, columnId, boardId, index } = req.body;
+    console.log({ title, tag, columnId, boardId, index });
 
-    if (!title || !tag || !columnId || !boardId) {
-      res.status(400).json({ message: 'Some task properties are missing' });
+    const hasIndex = index !== null && index !== undefined;
+    if (!title || !tag || !columnId || !boardId || !hasIndex) {
+      return res
+        .status(400)
+        .json({ message: 'Some task properties are missing' });
     }
 
     const hasTaskWithThisTitleInBoard = await TasksRepository.findByTitle({
@@ -27,10 +31,9 @@ class TaskController {
     });
 
     if (hasTaskWithThisTitleInBoard) {
-      res
+      return res
         .status(400)
         .json({ message: 'Already has a task with this title in board' });
-      return;
     }
 
     const task = await TasksRepository.create({
@@ -38,9 +41,18 @@ class TaskController {
       tag,
       columnId,
       boardId,
+      index,
     });
 
     res.json({ message: 'Task created', task });
+  }
+
+  async update(req, res) {
+    const { taskId } = req.params;
+    const fieldsToBeUpdated = req.body;
+    console.log(fieldsToBeUpdated);
+
+    await TasksRepository.update({ taskId, fieldsToBeUpdated });
   }
 }
 

@@ -27,17 +27,29 @@ class TasksRepository {
     return task;
   }
 
-  async create({ title, tag, columnId, boardId }) {
+  async create({ title, tag, columnId, boardId, index }) {
     const task = await prisma.task.create({
       data: {
         title,
         tag,
         column_id: columnId,
         board_id: boardId,
+        index,
       },
     });
 
     return task;
+  }
+
+  async update({ taskId, fieldsToBeUpdated }) {
+    await prisma.task.update({
+      where: {
+        id: Number(taskId),
+      },
+      data: {
+        ...fieldsToBeUpdated,
+      },
+    });
   }
 }
 

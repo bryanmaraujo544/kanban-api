@@ -28,6 +28,7 @@ router.post('/columns', ColumnController.store);
 router.get('/tasks', TaskController.index);
 router.get('/tasks/:boardId', TaskController.show);
 router.post('/tasks', TaskController.store);
+router.put('/tasks/:taskId', TaskController.update);
 
 router.get('/columns-order', ColumnsOrderController.index);
 router.get('/columns-order/:boardId', ColumnsOrderController.showByBoardId);
