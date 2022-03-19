@@ -38,10 +38,18 @@ class AuthRepository {
       },
     });
 
-    await prisma.column.create({
+    const column = await prisma.column.create({
       data: {
         title: 'To do',
         board_id: board.id,
+      },
+    });
+
+    await prisma.columnOrder.create({
+      data: {
+        board_id: board.id,
+        column_id: column.id,
+        index: 0,
       },
     });
 

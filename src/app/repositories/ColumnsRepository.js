@@ -11,9 +11,38 @@ class ColumnsRepository {
       where: {
         board_id: Number(boardId),
       },
+      include: {
+        ColumnOrder: true,
+      },
     });
 
     return columns;
+  }
+
+  async create({ title, boardId }) {
+    const column = await prisma.column.create({
+      data: {
+        title,
+        board_id: boardId,
+      },
+    });
+
+    return column;
+  }
+
+  async findByTitle({ title, boardId }) {
+    const column = await prisma.column.findFirst({
+      where: {
+        board_id: boardId,
+        AND: [
+          {
+            title,
+          },
+        ],
+      },
+    });
+
+    return column;
   }
 }
 

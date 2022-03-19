@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,58 +8,75 @@ datasource db {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  name      String @db.VarChar(256)
-  photo_url String @db.VarChar(1024)
-  email     String @unique @db.VarChar(256)
-  password  String @db.VarChar(512)
-
-  collaborators Collaborator[]
+  id            Int            @id @default(autoincrement())
+  name          String         @db.VarChar(256)
+  photo_url     String         @db.VarChar(1024)
+  password      String         @db.VarChar(512)
+  email         String         @unique @db.VarChar(256)
   Board         Board[]
+  collaborators Collaborator[]
+
   @@map("users")
 }
 
 model Board {
-  id       Int  @id @default(autoincrement())
-  user     User @relation(fields: [admin_id], references: [id])
-  admin_id Int
-
-  Column       Column[]
+  id           Int            @id @default(autoincrement())
+  admin_id     Int
+  user         User           @relation(fields: [admin_id], references: [id])
   Collaborator Collaborator[]
+  Column       Column[]
   Task         Task[]
 
+  @@index([admin_id], map: "boards_admin_id_fkey")
   @@map("boards")
+  ColumnOrder ColumnOrder[]
 }
 
 model Collaborator {
   id       Int   @id @default(autoincrement())
-  board    Board @relation(fields: [board_id], references: [id])
-  board_id Int
-  user     User  @relation(fields: [user_id], references: [id])
   user_id  Int
+  board_id Int
+  board    Board @relation(fields: [board_id], references: [id])
+  user     User  @relation(fields: [user_id], references: [id])
 
+  @@index([board_id], map: "collaborators_board_id_fkey")
+  @@index([user_id], map: "collaborators_user_id_fkey")
   @@map("collaborators")
 }
 
 model Column {
   id       Int    @id @default(autoincrement())
   title    String
-  board    Board  @relation(fields: [board_id], references: [id])
   board_id Int
+  board    Board  @relation(fields: [board_id], references: [id])
   tasks    Task[]
 
+  @@index([board_id], map: "columns_board_id_fkey")
   @@map("columns")
+  ColumnOrder ColumnOrder[]
 }
 
 model Task {
-  id    Int    @id @default(autoincrement())
-  title String @db.VarChar(256)
-  tag   String @db.VarChar(32)
-
-  column    Column? @relation(fields: [column_id], references: [id])
+  id        Int     @id @default(autoincrement())
+  title     String  @db.VarChar(256)
+  tag       String  @db.VarChar(32)
   column_id Int?
+  board_id  Int
+  board     Board   @relation(fields: [board_id], references: [id])
+  column    Column? @relation(fields: [column_id], references: [id])
 
-  board    Board @relation(fields: [board_id], references: [id])
-  board_id Int
+  @@index([board_id], map: "tasks_board_id_fkey")
+  @@index([column_id], map: "tasks_column_id_fkey")
   @@map("tasks")
+}
+
+model ColumnOrder {
+  id        Int    @id @default(autoincrement())
+  board     Board  @relation(fields: [board_id], references: [id])
+  board_id  Int
+  column    Column @relation(fields: [column_id], references: [id])
+  column_id Int
+  index     Int
+
+  @@map("columns_order")
 }
