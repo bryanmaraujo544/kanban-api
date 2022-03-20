@@ -14,8 +14,9 @@ class ColumnController {
 
   async store(req, res) {
     const { title, boardId } = req.body;
+    // console.log({ title, boardId });
 
-    if (!title || !boardId) {
+    if (!title || boardId === null || boardId === undefined) {
       return res.status.json({
         message: 'There are missing fields',
         column: null,
@@ -31,6 +32,13 @@ class ColumnController {
 
     const column = await ColumnsRepository.create({ title, boardId });
     res.json({ message: 'Column created', column });
+  }
+
+  async delete(req, res) {
+    const { columnId } = req.params;
+
+    await ColumnsRepository.delete(columnId);
+    res.json({ message: 'Column Deleted' });
   }
 }
 

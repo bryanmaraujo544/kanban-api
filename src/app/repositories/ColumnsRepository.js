@@ -30,7 +30,25 @@ class ColumnsRepository {
     return column;
   }
 
-  async update(fieldsToBeUpdated) {}
+  async delete(columnId) {
+    await prisma.columnOrder.deleteMany({
+      where: {
+        column_id: Number(columnId),
+      },
+    });
+
+    await prisma.task.deleteMany({
+      where: {
+        column_id: Number(columnId),
+      },
+    });
+
+    await prisma.column.delete({
+      where: {
+        id: Number(columnId),
+      },
+    });
+  }
 
   async findByTitle({ title, boardId }) {
     const column = await prisma.column.findFirst({

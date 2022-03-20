@@ -14,7 +14,8 @@ class ColumnsOrderController {
 
   async store(req, res) {
     const { boardId, columnId, index } = req.body;
-    if (!boardId || !columnId || !index) {
+    console.log({ boardId, columnId, index });
+    if (!boardId || !columnId || index === null || index === undefined) {
       return res
         .status(400)
         .json({ message: 'Fields are missing', columnOrder: null });
