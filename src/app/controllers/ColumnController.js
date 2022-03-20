@@ -33,6 +33,13 @@ class ColumnController {
     res.json({ message: 'Column created', column });
   }
 
+  async update(req, res) {
+    const { columnId } = req.params;
+    const fieldsToBeUpdated = req.body;
+
+    await ColumnsRepository.update({ columnId, fieldsToBeUpdated });
+  }
+
   async delete(req, res) {
     const { columnId } = req.params;
 

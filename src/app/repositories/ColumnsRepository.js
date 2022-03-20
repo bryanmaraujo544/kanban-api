@@ -50,6 +50,17 @@ class ColumnsRepository {
     });
   }
 
+  async update({ columnId, fieldsToBeUpdated }) {
+    await prisma.column.update({
+      where: {
+        id: Number(columnId),
+      },
+      data: {
+        ...fieldsToBeUpdated,
+      },
+    });
+  }
+
   async findByTitle({ title, boardId }) {
     const column = await prisma.column.findFirst({
       where: {

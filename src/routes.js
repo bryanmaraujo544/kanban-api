@@ -25,6 +25,7 @@ router.get('/columns', ColumnController.index);
 router.get('/columns/:boardId', ColumnController.show);
 router.post('/columns', ColumnController.store);
 router.delete('/columns/:columnId', ColumnController.delete);
+router.put('/columns/:columnId', ColumnController.update);
 
 router.get('/tasks', TaskController.index);
 router.get('/tasks/:boardId', TaskController.show);
