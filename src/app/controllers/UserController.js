@@ -8,7 +8,6 @@ class UserController {
   async listByEmail(req, res) {
     const { email } = req.params;
     const users = await UsersRepository.findByEmail(email);
-    console.log(users);
 
     if (!users) {
       res.json({ message: 'There are no users with this email', users: null });

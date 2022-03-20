@@ -14,7 +14,6 @@ class ColumnController {
 
   async store(req, res) {
     const { title, boardId } = req.body;
-    // console.log({ title, boardId });
 
     if (!title || boardId === null || boardId === undefined) {
       return res.status.json({

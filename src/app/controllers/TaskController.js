@@ -16,7 +16,6 @@ class TaskController {
 
   async store(req, res) {
     const { title, tag, columnId, boardId, index } = req.body;
-    console.log({ title, tag, columnId, boardId, index });
 
     const hasIndex = index !== null && index !== undefined;
     if (!title || !tag || !columnId || !boardId || !hasIndex) {
@@ -50,9 +49,14 @@ class TaskController {
   async update(req, res) {
     const { taskId } = req.params;
     const fieldsToBeUpdated = req.body;
-    console.log(fieldsToBeUpdated);
 
     await TasksRepository.update({ taskId, fieldsToBeUpdated });
+  }
+
+  async delete(req, res) {
+    const { taskId } = req.params;
+    await TasksRepository.delete(taskId);
+    res.json({ message: 'Task Deleted' });
   }
 }
 

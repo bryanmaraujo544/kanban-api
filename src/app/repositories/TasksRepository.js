@@ -51,6 +51,14 @@ class TasksRepository {
       },
     });
   }
+
+  async delete(taskId) {
+    await prisma.task.delete({
+      where: {
+        id: Number(taskId),
+      },
+    });
+  }
 }
 
 module.exports = new TasksRepository();

@@ -14,7 +14,7 @@ class ColumnsOrderController {
 
   async store(req, res) {
     const { boardId, columnId, index } = req.body;
-    console.log({ boardId, columnId, index });
+
     if (!boardId || !columnId || index === null || index === undefined) {
       return res
         .status(400)
