@@ -37,6 +37,12 @@ class AuthRepository {
         admin_id: user.id,
       },
     });
+    await prisma.collaborator.create({
+      data: {
+        board_id: board.id,
+        user_id: user.id,
+      },
+    });
 
     const column = await prisma.column.create({
       data: {

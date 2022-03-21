@@ -49,7 +49,6 @@ class TaskController {
   async update(req, res) {
     const { taskId } = req.params;
     const fieldsToBeUpdated = req.body;
-    console.log({ fieldsToBeUpdated });
 
     await TasksRepository.update({ taskId, fieldsToBeUpdated });
     res.json({ messag: 'Task Updated' });

@@ -30,6 +30,12 @@ class CollaboratorsRepository {
             photo_url: true,
           },
         },
+        board: {
+          select: {
+            admin_id: true,
+            user: true,
+          },
+        },
       },
     });
     return collaborators;
