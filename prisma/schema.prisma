@@ -34,10 +34,10 @@ model Board {
 
 model Collaborator {
   id       Int   @id @default(autoincrement())
-  user_id  Int
-  board_id Int
-  board    Board @relation(fields: [board_id], references: [id])
   user     User  @relation(fields: [user_id], references: [id])
+  user_id  Int
+  board    Board @relation(fields: [board_id], references: [id])
+  board_id Int
 
   @@index([board_id], map: "collaborators_board_id_fkey")
   @@index([user_id], map: "collaborators_user_id_fkey")

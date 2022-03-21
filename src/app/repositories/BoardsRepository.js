@@ -2,7 +2,11 @@ const prisma = require('../../prisma');
 
 class BoardsRepository {
   async findAll() {
-    const boards = await prisma.board.findMany();
+    const boards = await prisma.board.findMany({
+      include: {
+        Collaborator: true,
+      },
+    });
     return boards;
   }
 

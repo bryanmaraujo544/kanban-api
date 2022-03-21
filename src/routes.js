@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const AuthController = require('./app/controllers/AuthController.js');
 const BoardController = require('./app/controllers/BoardController.js');
+const CollaboratorController = require('./app/controllers/CollaboratorController.js');
 const ColumnController = require('./app/controllers/ColumnController.js');
 const ColumnsOrderController = require('./app/controllers/ColumnsOrderController.js');
 const TaskController = require('./app/controllers/TaskController.js');
@@ -37,5 +38,10 @@ router.get('/columns-order', ColumnsOrderController.index);
 router.get('/columns-order/:boardId', ColumnsOrderController.showByBoardId);
 router.post('/columns-order', ColumnsOrderController.store);
 router.put('/columns-order', ColumnsOrderController.update);
+
+router.get('/collaborators', CollaboratorController.index);
+router.get('/collaborators/:boardId', CollaboratorController.show);
+router.post('/collaborators', CollaboratorController.store);
+router.get('/collaborators/board/:userId', CollaboratorController.showByUserId);
 
 module.exports = router;
