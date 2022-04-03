@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = "mysql://babc3d44bda5ab:ea47d0b5@us-cdbr-east-05.cleardb.net/heroku_22b01b79728ab28?reconnect=true"
 }
 
 model User {
