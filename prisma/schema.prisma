@@ -4,15 +4,15 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://babc3d44bda5ab:ea47d0b5@us-cdbr-east-05.cleardb.net/heroku_22b01b79728ab28?reconnect=true"
+  url      = "mysql://babc3d44bda5ab:ea47d0b5@us-cdbr-east-05.cleardb.net/heroku_22b01b79728ab28"
 }
 
 model User {
   id            Int            @id @default(autoincrement())
-  name          String         @db.VarChar(256)
-  photo_url     String         @db.VarChar(1024)
-  password      String         @db.VarChar(512)
-  email         String         @unique @db.VarChar(256)
+  name          String         @db.VarChar(128)
+  photo_url     String         @db.VarChar(128)
+  password      String         @db.VarChar(128)
+  email         String         @unique @db.VarChar(128)
   Board         Board[]
   collaborators Collaborator[]
 
@@ -25,19 +25,19 @@ model Board {
   user         User           @relation(fields: [admin_id], references: [id])
   Collaborator Collaborator[]
   Column       Column[]
+  ColumnOrder  ColumnOrder[]
   Task         Task[]
 
-  ColumnOrder ColumnOrder[]
   @@index([admin_id], map: "boards_admin_id_fkey")
   @@map("boards")
 }
 
 model Collaborator {
   id       Int   @id @default(autoincrement())
-  user     User  @relation(fields: [user_id], references: [id])
   user_id  Int
-  board    Board @relation(fields: [board_id], references: [id])
   board_id Int
+  board    Board @relation(fields: [board_id], references: [id])
+  user     User  @relation(fields: [user_id], references: [id])
 
   @@index([board_id], map: "collaborators_board_id_fkey")
   @@index([user_id], map: "collaborators_user_id_fkey")
@@ -45,13 +45,13 @@ model Collaborator {
 }
 
 model Column {
-  id       Int    @id @default(autoincrement())
-  title    String
-  board_id Int
-  board    Board  @relation(fields: [board_id], references: [id])
-  tasks    Task[]
-
+  id          Int           @id @default(autoincrement())
+  title       String
+  board_id    Int
+  board       Board         @relation(fields: [board_id], references: [id])
   ColumnOrder ColumnOrder[]
+  tasks       Task[]
+
   @@index([board_id], map: "columns_board_id_fkey")
   @@map("columns")
 }
@@ -62,9 +62,9 @@ model Task {
   tag       String  @db.VarChar(32)
   column_id Int?
   board_id  Int
+  index     Int
   board     Board   @relation(fields: [board_id], references: [id])
   column    Column? @relation(fields: [column_id], references: [id])
-  index     Int
 
   @@index([board_id], map: "tasks_board_id_fkey")
   @@index([column_id], map: "tasks_column_id_fkey")
@@ -73,11 +73,13 @@ model Task {
 
 model ColumnOrder {
   id        Int    @id @default(autoincrement())
-  board     Board  @relation(fields: [board_id], references: [id])
   board_id  Int
-  column    Column @relation(fields: [column_id], references: [id])
   column_id Int
   index     Int
+  board     Board  @relation(fields: [board_id], references: [id])
+  column    Column @relation(fields: [column_id], references: [id])
 
+  @@index([board_id], map: "columns_order_board_id_fkey")
+  @@index([column_id], map: "columns_order_column_id_fkey")
   @@map("columns_order")
 }
