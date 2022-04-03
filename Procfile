@@ -1,2 +1,2 @@
 web: yarn start
-web: npx prisma migrate deploy
+web: npx migrate
