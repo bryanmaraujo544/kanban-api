@@ -13,6 +13,7 @@ class CollaboratorsRepository {
         board_id: Number(boardId),
       },
     });
+
     return collaborator;
   }
 
