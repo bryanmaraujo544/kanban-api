@@ -19,6 +19,9 @@ class AuthController {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    if (hashedPassword.length >= 256) {
+      return res.status(400).json({ message: 'Password too long', user: null });
+    }
     const userCreated = await AuthRepository.create({
       name,
       profileImageUrl,
